@@ -40,27 +40,27 @@
             font-weight: bold;
         }
 
-        /* 將上傳按鈕與燈號放在同一行並置中對齊 */
+        /* 調整 1：將上傳按鈕與燈號的距離拉近 (改為 6px) */
         .input-wrapper {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 6px; 
         }
 
-        /* 燈號的基礎樣式 (預設為熄滅的灰色) */
+        /* 燈號的基礎樣式 */
         .status-light {
             display: inline-block;
             width: 14px;
             height: 14px;
             border-radius: 50%;
-            background-color: #dddddd; 
+            background-color: #e0e0e0; 
             transition: all 0.3s ease;
         }
 
-        /* 燈號點亮時的樣式 (綠色 + 發光效果) */
+        /* 調整 2：燈號點亮時的樣式改為更亮的螢光綠，並加強發光光暈 */
         .status-light.active {
-            background-color: #5cb85c;
-            box-shadow: 0 0 8px rgba(92, 184, 92, 0.6);
+            background-color: #00e600;
+            box-shadow: 0 0 10px rgba(0, 230, 0, 0.7);
         }
 
         button {
@@ -133,21 +133,19 @@
     </div>
 
     <script>
-        // --- 新增：監聽檔案上傳狀態並切換燈號 ---
-        
-        // 處理檔案 A (每天交易資料) 的燈號
+        // 處理檔案 A 的燈號
         document.getElementById('fileA').addEventListener('change', function() {
             const light = document.getElementById('lightA');
             if (this.files.length > 0) {
-                light.classList.add('active'); // 點亮綠燈
+                light.classList.add('active'); 
                 light.title = "已選擇檔案";
             } else {
-                light.classList.remove('active'); // 恢復灰燈 (例如使用者按了取消)
+                light.classList.remove('active'); 
                 light.title = "尚未上傳";
             }
         });
 
-        // 處理檔案 B (一週交易資料) 的燈號
+        // 處理檔案 B 的燈號
         document.getElementById('fileB').addEventListener('change', function() {
             const light = document.getElementById('lightB');
             if (this.files.length > 0) {
@@ -158,8 +156,6 @@
                 light.title = "尚未上傳";
             }
         });
-
-        // --- 以下為原本的檔案解析與跳轉邏輯 ---
 
         const analyzeBtn = document.getElementById('analyzeBtn');
         const uploadSection = document.getElementById('uploadSection');
