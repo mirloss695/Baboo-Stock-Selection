@@ -220,9 +220,11 @@
                     if (p1 > p2) {
                         kBarSizeHtml = '<span class="dot dot-yellow"></span>';
                         kBarSymbol = 'yellow';
-                    } else {
+                    } else if (p1 < p2) {
                         kBarSizeHtml = '<span class="dot dot-brown"></span>';
                         kBarSymbol = 'brown';
+                    } else {
+                        kBarSizeHtml = '–';
                     }
 
                     // 指標 2：成交量增/減 (H = 今天成交量 - 昨天成交量)
