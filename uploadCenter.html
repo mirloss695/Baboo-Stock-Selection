@@ -27,162 +27,44 @@
             box-sizing: border-box;
         }
 
-        h2, h3 {
-            color: #444444; 
-            border-bottom: 2px solid #eeeeee;
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-
+        h2, h3 { color: #444444; border-bottom: 2px solid #eeeeee; padding-bottom: 10px; margin-top: 0; }
         .file-group { margin-bottom: 25px; }
         .file-group label { display: block; margin-bottom: 8px; font-weight: bold; }
-
-        .custom-upload-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px; 
-        }
-
+        .custom-upload-wrapper { display: flex; align-items: center; gap: 10px; }
         .hidden-file-input { display: none; }
-
-        .custom-file-btn {
-            background-color: #ffffff;
-            color: #555555;
-            border: 1px solid #cccccc;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.2s;
-            margin: 0; 
-        }
-
+        .custom-file-btn { background-color: #ffffff; color: #555555; border: 1px solid #cccccc; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: background-color 0.2s; margin: 0; }
         .custom-file-btn:hover { background-color: #e8ecef; }
-
-        .file-name-text {
-            font-size: 14px;
-            color: #888888;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 300px; 
-        }
-
-        .status-light {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background-color: #e0e0e0; 
-            transition: all 0.3s ease;
-            flex-shrink: 0; 
-        }
-
-        .status-light.active {
-            background-color: #00e600;
-            box-shadow: 0 0 10px rgba(0, 230, 0, 0.7);
-        }
-
-        .btn-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .btn-grid button {
-            background-color: #f0f0f0;
-            color: #555555;
-            border: 1px solid #cccccc;
-            padding: 10px 5px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.2s;
-            width: 100%;
-            margin: 0; 
-        }
-
+        .file-name-text { font-size: 14px; color: #888888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; }
+        .status-light { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background-color: #e0e0e0; transition: all 0.3s ease; flex-shrink: 0; }
+        .status-light.active { background-color: #00e600; box-shadow: 0 0 10px rgba(0, 230, 0, 0.7); }
+        .btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+        .btn-grid button { background-color: #f0f0f0; color: #555555; border: 1px solid #cccccc; padding: 10px 5px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: background-color 0.2s; width: 100%; margin: 0; }
         .btn-grid button:hover { background-color: #e0e0e0; }
-
-        #analyzeBtn {
-            background-color: #e8ecef;
-            color: #555555;
-            border: 1px solid #b8c2cc;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.2s;
-            width: 100%;
-            margin-top: 15px;
-        }
-        
-        #analyzeBtn:hover {
-            background-color: #d1d8dd;
-        }
-
-        #statusMsg {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #d9534f;
-        }
-
+        #analyzeBtn { background-color: #e8ecef; color: #555555; border: 1px solid #b8c2cc; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.2s; width: 100%; margin-top: 15px; }
+        #analyzeBtn:hover { background-color: #d1d8dd; }
+        #statusMsg { margin-top: 15px; font-size: 14px; color: #d9534f; }
         .hidden { display: none; }
 
-        /* --- 說明區塊外觀與分欄設定 --- */
-        .rule-description {
-            margin-top: 20px;
-            width: 100%;
-            max-width: 650px; 
-            padding: 0 10px;
-            font-size: 14px;
-            color: #777777; 
-            line-height: 1.6;
-            box-sizing: border-box;
-        }
-
-        .rule-description h4 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: #555555;
-            font-size: 15px;
-        }
-
-        /* 將清單分為左右兩欄的容器 */
-        .rule-lists-wrapper {
-            display: flex;
-            gap: 20px; /* 兩欄之間的間距 */
-        }
-
-        .rule-col {
-            flex: 1; /* 讓左右兩欄寬度平分 */
-            margin: 0;
-            padding-left: 20px;
-        }
-
-        .rule-col li {
-            margin-bottom: 8px; /* 稍微增加行距讓閱讀更舒適 */
-        }
+        .rule-description { margin-top: 20px; width: 100%; max-width: 650px; padding: 0 10px; font-size: 14px; color: #777777; line-height: 1.6; box-sizing: border-box; }
+        .rule-description h4 { margin-top: 0; margin-bottom: 15px; color: #555555; font-size: 15px; }
+        .rule-lists-wrapper { display: flex; gap: 20px; }
+        .rule-col { flex: 1; margin: 0; padding-left: 20px; }
+        .rule-col li { margin-bottom: 8px; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div id="uploadSection">
             <h2>資料上傳</h2>
-            
             <div class="file-group">
                 <label>上傳交易資料：</label>
                 <div class="custom-upload-wrapper">
                     <button type="button" class="custom-file-btn" onclick="document.getElementById('fileData').click()">選擇檔案</button>
                     <span class="status-light" id="lightData" title="尚未上傳"></span>
                     <span class="file-name-text" id="fileNameData">未選擇任何檔案</span>
-                    
                     <input type="file" id="fileData" class="hidden-file-input" accept=".csv, .xls, .xlsx">
                 </div>
             </div>
-
             <button id="analyzeBtn">開始分析</button>
             <div id="statusMsg"></div>
         </div>
@@ -204,19 +86,19 @@
     </div>
 
     <div id="ruleDescription" class="rule-description hidden">
-        <h4>名單篩選條件說明（成交量皆需 > 1000）：</h4>
+        <h4>名單篩選條件說明（成交量 > 1000）：</h4>
         <div class="rule-lists-wrapper">
             <ul class="rule-col">
-                <li><strong>名單一</strong>：上漲的紅K ＋ 共振</li>
-                <li><strong>名單二</strong>：上漲的紅K ＋ 無共振</li>
-                <li><strong>名單三</strong>：上漲的黑K ＋ 共振</li>
-                <li><strong>名單四</strong>：上漲的黑K ＋ 無共振</li>
+                <li><strong>名單一</strong>：上漲紅K ＋ 共振 ＋ 隔日 K > 0</li>
+                <li><strong>名單二</strong>：上漲紅K ＋ 無共振 ＋ 隔日 K > 0</li>
+                <li><strong>名單三</strong>：上漲黑K ＋ 共振 ＋ 隔日 K > 0</li>
+                <li><strong>名單四</strong>：上漲黑K ＋ 無共振 ＋ 隔日 K > 0</li>
             </ul>
             <ul class="rule-col">
-                <li><strong>名單五</strong>：下跌的紅K ＋ 共振</li>
-                <li><strong>名單六</strong>：下跌的紅K ＋ 無共振</li>
-                <li><strong>名單七</strong>：下跌的黑K ＋ 共振</li>
-                <li><strong>名單八</strong>：下跌的黑K ＋ 無共振</li>
+                <li><strong>名單五</strong>：下跌紅K ＋ 共振 ＋ 隔日 K < 0</li>
+                <li><strong>名單六</strong>：下跌紅K ＋ 無共振 ＋ 隔日 K < 0</li>
+                <li><strong>名單七</strong>：下跌黑K ＋ 共振 ＋ 隔日 K < 0</li>
+                <li><strong>名單八</strong>：下跌黑K ＋ 無共振 ＋ 隔日 K < 0</li>
             </ul>
         </div>
     </div>
@@ -225,17 +107,12 @@
         document.getElementById('fileData').addEventListener('change', function() {
             const light = document.getElementById('lightData');
             const nameText = document.getElementById('fileNameData');
-            
             if (this.files.length > 0) {
-                light.classList.add('active'); 
-                light.title = "已選擇檔案";
-                nameText.textContent = this.files[0].name;
-                nameText.style.color = '#555555';
+                light.classList.add('active'); light.title = "已選擇檔案";
+                nameText.textContent = this.files[0].name; nameText.style.color = '#555555';
             } else {
-                light.classList.remove('active'); 
-                light.title = "尚未上傳";
-                nameText.textContent = "未選擇任何檔案";
-                nameText.style.color = '#888888';
+                light.classList.remove('active'); light.title = "尚未上傳";
+                nameText.textContent = "未選擇任何檔案"; nameText.style.color = '#888888';
             }
         });
 
@@ -256,9 +133,7 @@
                         const worksheet = workbook.Sheets[firstSheetName];
                         const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
                         resolve(jsonData);
-                    } catch (error) {
-                        reject(error);
-                    }
+                    } catch (error) { reject(error); }
                 };
                 reader.onerror = function(error) { reject(error); };
                 reader.readAsArrayBuffer(file);
@@ -267,32 +142,18 @@
 
         analyzeBtn.addEventListener('click', async function() {
             const fileData = document.getElementById('fileData').files[0];
-
             if (!fileData) {
-                statusMsg.style.color = '#d9534f';
-                statusMsg.textContent = '提示：請確認檔案已亮起綠燈。';
-                return;
+                statusMsg.style.color = '#d9534f'; statusMsg.textContent = '提示：請確認檔案已亮起綠燈。'; return;
             }
-
-            statusMsg.style.color = '#555555';
-            statusMsg.textContent = '資料解析中，請稍候...';
-            analyzeBtn.disabled = true;
+            statusMsg.style.color = '#555555'; statusMsg.textContent = '資料解析中，請稍候...'; analyzeBtn.disabled = true;
 
             try {
                 const data = await readExcelFile(fileData);
                 sessionStorage.setItem('dailyData', JSON.stringify(data));
-
-                uploadSection.classList.add('hidden');
-                resultSection.classList.remove('hidden');
-                ruleDescription.classList.remove('hidden');
-                
+                uploadSection.classList.add('hidden'); resultSection.classList.remove('hidden'); ruleDescription.classList.remove('hidden');
                 statusMsg.textContent = '解析成功！請選擇分析條件。';
-
             } catch (error) {
-                console.error(error);
-                statusMsg.style.color = '#d9534f';
-                statusMsg.textContent = '檔案解析失敗，請確認檔案格式是否正確。';
-                analyzeBtn.disabled = false;
+                console.error(error); statusMsg.style.color = '#d9534f'; statusMsg.textContent = '檔案解析失敗，請確認檔案格式是否正確。'; analyzeBtn.disabled = false;
             }
         });
 

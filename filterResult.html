@@ -6,80 +6,15 @@
     <title>篩選結果</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #555555; 
-            background-color: #f4f4f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-            margin: 0;
-        }
-
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 800px;
-        }
-
-        #pageTitle {
-            color: #444444;
-            border-bottom: 2px solid #eeeeee;
-            padding-bottom: 15px;
-            margin-top: 0;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .action-bar {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
-
-        .download-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #555555; background-color: #f4f4f9; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 800px; }
+        #pageTitle { color: #444444; border-bottom: 2px solid #eeeeee; padding-bottom: 15px; margin-top: 0; margin-bottom: 20px; text-align: center; }
+        .action-bar { display: flex; justify-content: center; margin-bottom: 25px; }
+        .download-btn { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold; transition: background-color 0.2s; }
         .download-btn:hover { background-color: #45a049; }
-
-        .stock-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .stock-btn {
-            background-color: #ffffff;
-            color: #555555;
-            border: 1px solid #cccccc;
-            padding: 12px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            text-align: center;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .stock-btn:hover {
-            background-color: #e8ecef;
-            border-color: #b8c2cc;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
+        .stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+        .stock-btn { background-color: #ffffff; color: #555555; border: 1px solid #cccccc; padding: 12px 10px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 500; text-align: center; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .stock-btn:hover { background-color: #e8ecef; border-color: #b8c2cc; transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .no-data { text-align: center; padding: 20px; font-style: italic; color: #999999; }
     </style>
 </head>
@@ -87,18 +22,15 @@
 
     <div class="container">
         <h2 id="pageTitle">載入中...</h2>
-        
         <div class="action-bar" id="actionBar" style="display: none;">
             <button class="download-btn" onclick="downloadExcel()">下載試算表 (.xls)</button>
         </div>
-
         <div id="stockList" class="stock-grid"></div>
     </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         let conditionTitle = urlParams.get('title') || '未指定的篩選條件';
-        // 去除外圍的括號以便命名與顯示
         const cleanTitle = conditionTitle.replace(/【|】/g, ''); 
         
         document.title = cleanTitle;
@@ -117,63 +49,68 @@
             const dailyData = JSON.parse(dailyDataStr);
             const stockGroups = {};
             
+            // 將資料分群並額外存入「日期」
             dailyData.forEach(row => {
-                const code = row['證券代號'] || row['代號'] || row['Code'];
-                const name = row['證券名稱'] || row['名稱'] || row['Name'];
+                const code = String(row['證券代號'] || row['代號'] || row['Code'] || '').trim();
+                const name = String(row['證券名稱'] || row['名稱'] || row['Name'] || '').trim();
+                const date = String(row['日期'] || row['年月日'] || row['Date'] || '').trim();
                 const open = parseNum(row['開盤價'] || row['Open']);
                 const close = parseNum(row['收盤價'] || row['Close']);
                 const high = parseNum(row['最高價'] || row['High']);
                 const low = parseNum(row['最低價'] || row['Low']);
                 const volume = parseNum(row['成交股數'] || row['成交量'] || row['Volume']);
 
-                if (!code || !name) return;
+                if (!code || !name || !date) return;
 
                 const key = `${code} ${name}`;
                 if (!stockGroups[key]) stockGroups[key] = [];
-                stockGroups[key].push({ open, close, high, low, volume });
+                stockGroups[key].push({ date, open, close, high, low, volume });
             });
 
             for (const [stockFullName, records] of Object.entries(stockGroups)) {
                 let isMatch = false;
 
-                if (records.length >= 2) {
-                    for (let i = 1; i < records.length; i++) {
-                        const t = records[i];     // Today (N+1)
-                        const y = records[i - 1]; // Yesterday (N)
+                // 強制依日期排序，確保天數不固定時，相對關係仍正確
+                records.sort((a, b) => a.date.localeCompare(b.date));
+                
+                // 取得當週(資料最後一天)收盤價
+                const weeklyClose = records[records.length - 1].close;
 
-                        // --- 運算條件 ---
-                        // 條件一：上漲的紅 K
+                // 至少要有 3 天的資料，才能判斷 昨天(N)、訊號日(N+1)、明天(N+2)
+                if (records.length >= 3) {
+                    // 迴圈跑到倒數第二天，確保「明天(tmr)」存在
+                    for (let i = 1; i < records.length - 1; i++) {
+                        const y = records[i - 1]; // Yesterday (N)
+                        const t = records[i];     // Today / 訊號日 (N+1)
+                        const tmr = records[i + 1]; // Tomorrow / 隔日 (N+2)
+
                         const cond1 = (y.close - y.open > 0) && (t.close - t.open > 0) && (t.close - y.close > 0);
-                        // 條件二：下跌的黑 K
                         const cond2 = (y.close - y.open < 0) && (t.close - t.open < 0) && (t.close - y.close < 0);
-                        // 條件三：上漲的黑 K
                         const cond3 = (t.close - t.open < 0) && (t.close - y.close > 0);
-                        // 條件四：下跌的紅 K
                         const cond4 = (t.close - t.open > 0) && (t.close - y.close < 0);
 
-                        // 共振判斷
                         const p1 = Math.abs(t.close - t.open);
                         const p2 = (t.high - t.low) / 2;
                         const p = p1 - p2;
                         const h = t.volume - y.volume;
                         
                         let isResonance = false;
-                        if ((p > 0 && h > 0) || (p < 0 && h < 0)) {
-                            isResonance = true;
-                        }
+                        if ((p > 0 && h > 0) || (p < 0 && h < 0)) isResonance = true;
 
-                        // 判斷是否符合特定名單
-                        let passed = false;
                         const vCheck = t.volume > 1000;
+                        
+                        // 計算隔日 K 值 (隔日收盤 - 當日收盤)
+                        const nextK = tmr.close - t.close;
 
-                        if (cleanTitle === '候選名單一' && cond1 && isResonance && vCheck) passed = true;
-                        if (cleanTitle === '候選名單二' && cond1 && !isResonance && vCheck) passed = true;
-                        if (cleanTitle === '候選名單三' && cond3 && isResonance && vCheck) passed = true;
-                        if (cleanTitle === '候選名單四' && cond3 && !isResonance && vCheck) passed = true;
-                        if (cleanTitle === '候選名單五' && cond4 && isResonance && vCheck) passed = true;
-                        if (cleanTitle === '候選名單六' && cond4 && !isResonance && vCheck) passed = true;
-                        if (cleanTitle === '候選名單七' && cond2 && isResonance && vCheck) passed = true;
-                        if (cleanTitle === '候選名單八' && cond2 && !isResonance && vCheck) passed = true;
+                        let passed = false;
+                        if (cleanTitle === '候選名單一' && cond1 && isResonance && vCheck && nextK > 0) passed = true;
+                        if (cleanTitle === '候選名單二' && cond1 && !isResonance && vCheck && nextK > 0) passed = true;
+                        if (cleanTitle === '候選名單三' && cond3 && isResonance && vCheck && nextK > 0) passed = true;
+                        if (cleanTitle === '候選名單四' && cond3 && !isResonance && vCheck && nextK > 0) passed = true;
+                        if (cleanTitle === '候選名單五' && cond4 && isResonance && vCheck && nextK < 0) passed = true;
+                        if (cleanTitle === '候選名單六' && cond4 && !isResonance && vCheck && nextK < 0) passed = true;
+                        if (cleanTitle === '候選名單七' && cond2 && isResonance && vCheck && nextK < 0) passed = true;
+                        if (cleanTitle === '候選名單八' && cond2 && !isResonance && vCheck && nextK < 0) passed = true;
 
                         if (passed) {
                             isMatch = true;
@@ -184,7 +121,11 @@
 
                 if (isMatch) {
                     const parts = stockFullName.split(' ');
-                    filteredStocks.push({ code: parts[0], name: parts.slice(1).join(' ') });
+                    filteredStocks.push({ 
+                        code: parts[0], 
+                        name: parts.slice(1).join(' '),
+                        weeklyClose: weeklyClose // 儲存該股當週收盤價
+                    });
                 }
             }
         }
@@ -216,28 +157,24 @@
             });
         }
 
-        // 下載 Excel 函式
+        // 匯出功能更新：新增第三欄當週收盤價
         function downloadExcel() {
             if (filteredStocks.length === 0) return;
             
-            // 設定第一列為標題：代號, 名稱
-            const wsData = [ ["代號", "名稱"] ];
+            const wsData = [ ["代號", "名稱", "當週收盤價"] ];
             
-            // 第二列開始塞入資料
             filteredStocks.forEach(stock => {
-                wsData.push([stock.code, stock.name]);
+                wsData.push([stock.code, stock.name, stock.weeklyClose]);
             });
 
             const ws = XLSX.utils.aoa_to_sheet(wsData);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "符合名單");
             
-            // 匯出為 .xls 檔
             XLSX.writeFile(wb, `${cleanTitle}.xls`);
         }
 
         renderStockButtons(filteredStocks);
     </script>
-
 </body>
 </html>
