@@ -49,7 +49,6 @@
             const dailyData = JSON.parse(dailyDataStr);
             const stockGroups = {};
             
-            // 將資料分群並額外存入「日期」
             dailyData.forEach(row => {
                 const code = String(row['證券代號'] || row['代號'] || row['Code'] || '').trim();
                 const name = String(row['證券名稱'] || row['名稱'] || row['Name'] || '').trim();
@@ -69,20 +68,13 @@
 
             for (const [stockFullName, records] of Object.entries(stockGroups)) {
                 let isMatch = false;
-
-                // 強制依日期排序，確保天數不固定時，相對關係仍正確
                 records.sort((a, b) => a.date.localeCompare(b.date));
-                
-                // 取得當週(資料最後一天)收盤價
                 const weeklyClose = records[records.length - 1].close;
-
-                // 至少要有 3 天的資料，才能判斷 昨天(N)、訊號日(N+1)、明天(N+2)
                 if (records.length >= 3) {
-                    // 迴圈跑到倒數第二天，確保「明天(tmr)」存在
                     for (let i = 1; i < records.length - 1; i++) {
-                        const y = records[i - 1]; // Yesterday (N)
-                        const t = records[i];     // Today / 訊號日 (N+1)
-                        const tmr = records[i + 1]; // Tomorrow / 隔日 (N+2)
+                        const y = records[i - 1];
+                        const t = records[i];
+                        const tmr = records[i + 1];
 
                         const cond1 = (y.close - y.open > 0) && (t.close - t.open > 0) && (t.close - y.close > 0);
                         const cond2 = (y.close - y.open < 0) && (t.close - t.open < 0) && (t.close - y.close < 0);
@@ -99,7 +91,6 @@
 
                         const vCheck = t.volume > 1000;
                         
-                        // 計算隔日 K 值 (隔日收盤 - 當日收盤)
                         const nextK = tmr.close - t.close;
 
                         let passed = false;
@@ -124,7 +115,7 @@
                     filteredStocks.push({ 
                         code: parts[0], 
                         name: parts.slice(1).join(' '),
-                        weeklyClose: weeklyClose // 儲存該股當週收盤價
+                        weeklyClose: weeklyClose
                     });
                 }
             }
@@ -157,7 +148,6 @@
             });
         }
 
-        // 匯出功能更新：新增第三欄當週收盤價
         function downloadExcel() {
             if (filteredStocks.length === 0) return;
             

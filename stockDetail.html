@@ -20,10 +20,9 @@
         .text-resonance { color: #444444; font-weight: bold; }
         .text-no-resonance { color: #aaaaaa; } 
 
-        /* --- 修改重點：將 K 棒文字拆分樣式 --- */
-        .k-prefix { color: #555555; font-weight: bold; }   /* 上漲/下跌的：灰色、粗體 */
-        .k-red { color: #d9534f; font-weight: normal; }    /* 紅 K：紅色、正常粗細 */
-        .k-black { color: #222222; font-weight: normal; }  /* 黑 K：黑色、正常粗細 */
+        .k-prefix { color: #555555; font-weight: bold; }
+        .k-red { color: #d9534f; font-weight: normal; }
+        .k-black { color: #222222; font-weight: normal; }
     </style>
 </head>
 <body>
@@ -133,7 +132,6 @@
                         const cond3 = (current.close - current.open < 0) && (current.close - previous.close > 0);
                         const cond4 = (current.close - current.open > 0) && (current.close - previous.close < 0);
 
-                        // --- 修改重點：組合不同樣式的字串 ---
                         if (cond1) kBarNatureHtml = '<span class="k-prefix">上漲的</span><span class="k-red">紅 K</span>';
                         else if (cond2) kBarNatureHtml = '<span class="k-prefix">下跌的</span><span class="k-black">黑 K</span>';
                         else if (cond3) kBarNatureHtml = '<span class="k-prefix">上漲的</span><span class="k-black"> 黑 K</span>';
